@@ -1,0 +1,50 @@
+<!-- iot/templates/sensor/room.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Sensor Room</title>
+</head>
+<body>
+    <textarea id="sensor-log" cols="100" rows="20"></textarea><br>
+    <input id="sensor-message-input" type="text" size="100"><br>
+    <input id="sensor-message-submit" type="button" value="Send">
+    {{ room_name|json_script:"room-name" }}
+    <script>
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+        const sensorSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/sensor/'
+            + roomName
+            + '/'
+        );
+
+        sensorSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            document.querySelector('#sensor-log').value += (data.message + '\n');
+        };
+
+        sensorSocket.onclose = function(e) {
+            console.error('Sensor socket closed unexpectedly');
+        };
+
+        document.querySelector('#sensor-message-input').focus();
+        document.querySelector('#sensor-message-input').onkeyup = function(e) {
+            if (e.key === 'Enter') {  // enter, return
+                document.querySelector('#sensor-message-submit').click();
+            }
+        };
+
+        document.querySelector('#sensor-message-submit').onclick = function(e) {
+            const messageInputDom = document.querySelector('#sensor-message-input');
+            const message = messageInputDom.value;
+            sensorSocket.send(JSON.stringify({
+                'message': message
+            }));
+            messageInputDom.value = '';
+        };
+    </script>
+</body>
+</html>

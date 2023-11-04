@@ -38,3 +38,8 @@ Para semear use:
 Para criar um superusuário (administrador) do Django, execute o seguinte comando e siga as instruções:
 
 `python manage.py createsuperuser`
+
+## Requisitos
+
+`pipreqs . --force`
+`pip install -r requirements.txt   `
