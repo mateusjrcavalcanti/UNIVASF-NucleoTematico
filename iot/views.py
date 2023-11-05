@@ -30,6 +30,10 @@ def index(request):
     return render(request, "sensor/index.html")
 
 
+def sensors(request):
+    return render(request, "sensor/sensors.html")
+
+
 def room(request, room_name):
     return render(request, "sensor/room.html", {"room_name": room_name})
 

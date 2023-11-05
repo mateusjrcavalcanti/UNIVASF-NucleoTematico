@@ -26,9 +26,14 @@ CHANNEL_LAYERS = {
     },
 }
 
+TAILWIND_APP_NAME = 'frontend'
+
 INSTALLED_APPS = [
     'daphne',
     'channels',
+    'tailwind',
+    'frontend',
+    'django_browser_reload',
     'iot',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,6 +44,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django_browser_reload.middleware.BrowserReloadMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
