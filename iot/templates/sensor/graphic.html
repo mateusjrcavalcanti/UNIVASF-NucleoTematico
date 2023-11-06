@@ -1,0 +1,158 @@
+{{ sensor.id|json_script:"sensor-id" }}
+<div class="w-full p-4 bg-white shadow-lg rounded-2xl dark:bg-gray-700">
+  <p class="pb-1 font-bold text-black text-md dark:text-white">
+    {{ sensor.description }}
+    <span class="ml-2 text-sm text-gray-500 dark:text-gray-300">
+      {{ sensor.id }}
+    </span>
+  </p>
+  <div id="temperature"></div>
+  <div id="current"></div>
+  <div id="voltage"></div>
+</div>
+<script>
+  // Default ApexCharts options
+  const options = {
+    series: [{ name: "Temperatura", data: [] }],
+    chart: {
+      id: "temperature-chart",
+      group: "energy",
+      height: 200,
+      type: "line",
+      animations: {
+        enabled: true,
+        easing: "linear",
+        dynamicAnimation: {
+          speed: 1000,
+        },
+      },
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+    },
+    title: {
+      text: "Temperature",
+      align: "left",
+    },
+    markers: {
+      size: 0,
+    },
+    yaxis: {
+      labels: {
+        formatter: function (val) {
+          return val.toFixed(1);
+        },
+      },
+      title: {
+        text: "celsius",
+      },
+    },
+    xaxis: {
+      type: "datetime",
+    },
+    legend: {
+      show: false,
+    },
+  };
+
+  // Temperature chart
+  const temperatureData = [];
+  const temperatureChart = new ApexCharts(
+    document.querySelector("#temperature"),
+    options
+  );
+  temperatureChart.render();
+
+  // Voltage chart
+  const voltageData = [];
+  const voltageChart = new ApexCharts(document.querySelector("#voltage"), {
+    ...options,
+    series: [{ name: "Voltage", data: [] }],
+    chart: { ...options.chart, id: "voltage-chart" },
+    title: { ...options.title, text: "Voltage" },
+    yaxis: {
+      ...options.yaxis,
+      title: {
+        ...options.yaxis.title,
+        text: "volts",
+      },
+    },
+  });
+  voltageChart.render();
+
+  // Current chart
+  const currentData = [];
+  const currentChart = new ApexCharts(document.querySelector("#current"), {
+    ...options,
+    series: [{ name: "Current", data: [] }],
+    chart: { ...options.chart, id: "current-chart" },
+    title: { ...options.title, text: "Current" },
+    yaxis: {
+      ...options.yaxis,
+      title: {
+        ...options.yaxis.title,
+        text: "amperes",
+      },
+    },
+  });
+  currentChart.render();
+
+  // Websocket
+  const sensor_id = JSON.parse(
+    document.getElementById("sensor-id").textContent
+  );
+
+  const sensorSocket = new WebSocket(
+    "ws://" + window.location.host + "/ws/sensor/" + sensor_id + "/"
+  );
+
+  sensorSocket.onmessage = function (e) {
+    const dataMsg = JSON.parse(JSON.parse(e.data).message);
+
+    // Temperature
+    temperatureData.push({
+      x: new Date(dataMsg.timestamp),
+      y: dataMsg.temperature,
+    });
+    temperatureChart.updateSeries([
+      {
+        data: temperatureData,
+      },
+    ]);
+
+    // Voltage
+    voltageData.push({
+      x: new Date(dataMsg.timestamp),
+      y: dataMsg.voltage,
+    });
+    voltageChart.updateSeries([
+      {
+        data: voltageData,
+      },
+    ]);
+
+    // Current
+    currentData.push({
+      x: new Date(dataMsg.timestamp),
+      y: dataMsg.current,
+    });
+    currentChart.updateSeries([
+      {
+        data: currentData,
+      },
+    ]);
+  };
+
+  sensorSocket.onclose = function (e) {
+    console.error("Sensor socket closed unexpectedly");
+  };
+</script>

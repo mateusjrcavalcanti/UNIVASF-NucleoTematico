@@ -1,4 +1,5 @@
 # iot/apps.py
+import json
 import threading
 from django.apps import AppConfig
 from UNIVASFNucleoTematico import settings
@@ -15,13 +16,43 @@ class IotConfig(AppConfig):
     active_clients = {}
 
     def forward_message_to_websocket(self, sensor_id, message):
+        from iot.models import Sensor, SensorData
         channel_layer = get_channel_layer()
         group_name = f"sensor_{sensor_id}"
 
-        async_to_sync(channel_layer.group_send)(group_name, {
-            'type': 'chat.message',
-            'message': message,
-        })
+        try:
+            data = json.loads(message)
+            if Sensor.objects.filter(id=sensor_id).exists():
+                newData = SensorData(
+                    sensor_id=sensor_id,
+                    temperature=data.get("temperature"),
+                    voltage=data.get("voltage"),
+                    current=data.get("current")
+                )
+                newData.save()  # Salvar o objeto no banco de dados
+
+                # Crie um dicionário com os dados de newData
+                data_dict = {
+                    "temperature": newData.temperature,
+                    "voltage": newData.voltage,
+                    "current": newData.current,
+                    "timestamp": newData.timestamp.isoformat()
+                }
+
+                # Converta o dicionário em uma string JSON
+                message_json = json.dumps(data_dict)
+
+                # Envie a string JSON no campo 'message'
+                async_to_sync(channel_layer.group_send)(group_name, {
+                    'type': 'chat.message',
+                    'message': message_json,
+                })
+
+        except json.JSONDecodeError as e:
+            print(colored(f"Erro ao analisar o JSON: {e}", 'red'))
+        except Exception as e:
+            print(
+                colored(f"Erro ao inserir os dados no banco de dados: {e}", 'red'))
 
     def handle_client(self, client_socket, client_address):
         from iot.models import Sensor

@@ -11,3 +11,14 @@ class Sensor(models.Model):
 
     def __str__(self):
         return self.description or str(self.id)
+
+
+class SensorData(models.Model):
+    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    temperature = models.DecimalField(max_digits=5, decimal_places=2)
+    voltage = models.DecimalField(max_digits=5, decimal_places=2)
+    current = models.DecimalField(max_digits=5, decimal_places=2)
+
+    def __str__(self):
+        return f"Data for Sensor {self.sensor.id} at {self.timestamp}"
