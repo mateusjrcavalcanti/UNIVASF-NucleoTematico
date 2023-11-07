@@ -8,6 +8,7 @@ class Sensor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField(blank=True)
     token = models.CharField(max_length=40, unique=True, default=uuid.uuid4)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.description or str(self.id)
