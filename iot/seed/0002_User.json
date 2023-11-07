@@ -4,7 +4,7 @@
     "pk": 1,
     "fields": {
         "password": "pbkdf2_sha256$600000$wFQjjlerNwKxVxvzP3NlOe$LF7hdj8AqWUNAaN3F3t5fdmkvf3djjbPJ0yrRAJj4BM=",
-        "last_login": "2023-10-30T02:24:08.638Z",
+        "last_login": "2023-11-07T17:50:02.281Z",
         "is_superuser": true,
         "username": "admin",
         "first_name": "",

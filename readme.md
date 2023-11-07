@@ -66,9 +66,9 @@ Para fazer o build do tailwind, use o seguinte comando:
 
 - Para atualizar as seeds use:
   ```sh
-  python manage.py dumpdata auth.group --indent 4 > djangoNT/seed/0001_Group.json
-  python manage.py dumpdata auth.user --indent 4 > djangoNT/seed/0002_User.json
-  python manage.py dumpdata iot --indent 4 > djangoNT/seed/0003_Sensor.json
+  python manage.py dumpdata auth.group --indent 4 > iot/seed/0001_Group.json
+  python manage.py dumpdata auth.user --indent 4 > iot/seed/0002_User.json
+  python manage.py dumpdata iot --indent 4 > iot/seed/0003_Sensor.json
   ```
 - Para semear use:
   `python manage.py iot:seed`

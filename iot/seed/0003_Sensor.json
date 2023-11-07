@@ -1,11 +1,11 @@
 [
-  {
+{
     "model": "iot.sensor",
-    "pk": "03ec6121-2c26-43bc-b14f-7e1bcab68be7",
+    "pk": "23d69377-f6c0-4b45-9242-8f73362300a3",
     "fields": {
-      "user": 1,
-      "description": "Sensor de teste do ADM",
-      "token": "24f37ccb-73a1-4b31-a949-ccaaf48c95be"
+        "user": 1,
+        "description": "Sensor de teste do ADM",
+        "token": "24f37ccb-73a1-4b31-a949-ccaaf48c95be"
     }
-  }
+}
 ]
