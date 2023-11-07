@@ -16,7 +16,7 @@ TCP_HOST = '0.0.0.0'
 TCP_PORT = 8080
 
 # Daphne
-ASGI_APPLICATION = "UNIVASFNucleoTematico.asgi.application"
+ASGI_APPLICATION = "SolarEnergyAnalysis.asgi.application"
 
 # Application definition
 
@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'UNIVASFNucleoTematico.urls'
+ROOT_URLCONF = 'SolarEnergyAnalysis.urls'
 
 TEMPLATES = [
     {
@@ -72,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'UNIVASFNucleoTematico.wsgi.application'
+WSGI_APPLICATION = 'SolarEnergyAnalysis.wsgi.application'
 
 
 # Database

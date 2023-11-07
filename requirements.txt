@@ -1,4 +1,8 @@
 asgiref==3.7.2
 channels==4.0.0
+daphne==4.0.0
 Django==4.2.6
+django_browser_reload==1.12.0
+django-tailwind==3.6.0
+pipreqs==0.4.13
 termcolor==2.3.0

@@ -2,7 +2,7 @@
 import json
 import threading
 from django.apps import AppConfig
-from UNIVASFNucleoTematico import settings
+from SolarEnergyAnalysis import settings
 import socket
 import sys
 from termcolor import colored

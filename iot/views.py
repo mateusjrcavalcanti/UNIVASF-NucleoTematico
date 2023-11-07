@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 import socket
 
-from UNIVASFNucleoTematico import settings
+from SolarEnergyAnalysis import settings
 from iot.models import Sensor
 
 
