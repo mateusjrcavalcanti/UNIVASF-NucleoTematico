@@ -14,15 +14,26 @@ Certifique-se de ter o Python instalado em sua máquina. Em seguida, você pode 
 - Instação
 
   1. Abra um terminal e navegue até a raiz do seu projeto.
+
   2. Crie um ambiente virtual (recomendado para isolar as dependências do projeto):
      `python -m venv venv`
-  3. Ative o ambiente virtual - No Windows:
-     ` python -m venv venv` - No Linux
-     ` source venv/bin/activate`
+
+  3. Ative o ambiente virtual
+
+  - No Windows:
+    ` python -m venv venv`
+
+  - No Linux
+    `source venv/bin/activate`
+
   4. Instale as dependências do Django:
      `pip install -r requirements.txt`
+
   5. Execute as migrações de banco de dados:
      `python manage.py migrate`
+
+  6. Instale o tailwind:
+     `python manage.py tailwind install`
 
 - Criando um Superusuário
   Para criar um superusuário (administrador) do Django, execute o seguinte comando:
@@ -31,10 +42,18 @@ Certifique-se de ter o Python instalado em sua máquina. Em seguida, você pode 
 - Atualizar requisitos
   `pipreqs .`
 
-## Executando o Servidor
+## Executando o Projeto
 
 Para iniciar o servidor do Django, use o seguinte comando:
 `python manage.py runserver`
+
+Para fazer o build do tailwind, use o seguinte comando:
+
+- Em esenvolvimento:
+  `python manage.py tailwind start`
+
+- Em produção:
+  `python manage.py tailwind build`
 
 ## Banco de Dados
 
