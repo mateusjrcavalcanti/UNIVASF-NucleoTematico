@@ -11,6 +11,8 @@
   <div id="voltage"></div>
 </div>
 <script>
+  const sensorData = JSON.parse("{{ sensor_data|escapejs }}");
+
   // Default ApexCharts options
   const options = {
     series: [{ name: "Temperatura", data: [] }],
@@ -65,20 +67,37 @@
   };
 
   // Temperature chart
-  const temperatureData = [];
+  const temperatureData = sensorData.map(function (data) {
+    var temperature = parseFloat(data.fields.temperature);
+    return {
+      x: new Date(data.fields.timestamp),
+      y: temperature,
+    };
+  });
   const temperatureChart = new ApexCharts(
     document.querySelector("#temperature"),
-    options
+    {
+      ...options,
+      series: [{ name: "Temperature", data: temperatureData }],
+      title: { ...options.title, text: "Temperatura" },
+      colors: ["#00E396"],
+    }
   );
   temperatureChart.render();
 
   // Voltage chart
-  const voltageData = [];
+  const voltageData = sensorData.map(function (data) {
+    var voltage = parseFloat(data.fields.voltage);
+    return {
+      x: new Date(data.fields.timestamp),
+      y: voltage,
+    };
+  });
   const voltageChart = new ApexCharts(document.querySelector("#voltage"), {
     ...options,
-    series: [{ name: "Voltage", data: [] }],
+    series: [{ name: "Voltage", data: voltageData }],
     chart: { ...options.chart, id: "voltage-chart" },
-    title: { ...options.title, text: "Voltage" },
+    title: { ...options.title, text: "Tensão" },
     yaxis: {
       ...options.yaxis,
       title: {
@@ -86,16 +105,23 @@
         text: "volts",
       },
     },
+    colors: ["#FF8C00"],
   });
   voltageChart.render();
 
   // Current chart
-  const currentData = [];
+  const currentData = sensorData.map(function (data) {
+    var current = parseFloat(data.fields.current);
+    return {
+      x: new Date(data.fields.timestamp),
+      y: current,
+    };
+  });
   const currentChart = new ApexCharts(document.querySelector("#current"), {
     ...options,
-    series: [{ name: "Current", data: [] }],
+    series: [{ name: "Current", data: currentData }],
     chart: { ...options.chart, id: "current-chart" },
-    title: { ...options.title, text: "Current" },
+    title: { ...options.title, text: "Corrente" },
     yaxis: {
       ...options.yaxis,
       title: {
