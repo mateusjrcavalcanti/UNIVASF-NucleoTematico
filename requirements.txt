@@ -5,4 +5,9 @@ Django==4.2.6
 django_browser_reload==1.12.0
 django-tailwind==3.6.0
 pipreqs==0.4.13
+pyserial==3.5
+python-decouple==3.8
+pytz==2023.3.post1
 termcolor==2.3.0
+timezonefinder==6.2.0
+wifi==0.3.8

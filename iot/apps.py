@@ -8,6 +8,8 @@ import sys
 from termcolor import colored
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
+from datetime import datetime
+import pytz
 
 
 class IotConfig(AppConfig):
@@ -29,6 +31,13 @@ class IotConfig(AppConfig):
                     voltage=data.get("voltage"),
                     current=data.get("current")
                 )
+                if "timestamp" in data:
+                    # Defina o timestamp em UTC
+                    timestamp = datetime.fromisoformat(data["timestamp"])
+                    utc_timestamp = timestamp.replace(tzinfo=pytz.UTC)
+                    newData.timestamp = utc_timestamp
+                newData.save()
+
                 newData.save()  # Salvar o objeto no banco de dados
 
                 # Crie um dicionário com os dados de newData
