@@ -51,7 +51,7 @@
     yaxis: {
       labels: {
         formatter: function (val) {
-          return val.toFixed(1);
+          return val.toFixed(2);
         },
       },
       title: {
@@ -60,6 +60,8 @@
     },
     xaxis: {
       type: "datetime",
+      min: new Date().getTime() - 24 * 60 * 60 * 1000, // Defina o mínimo para 24 horas atrás
+      max: new Date().getTime(), // Defina o máximo para o tempo atual
     },
     legend: {
       show: false,
@@ -154,6 +156,12 @@
         data: temperatureData,
       },
     ]);
+    temperatureChart.updateOptions({
+      xaxis: {
+        min: new Date().getTime() - 24 * 60 * 60 * 1000,
+        max: new Date().getTime(),
+      },
+    });
 
     // Voltage
     voltageData.push({
@@ -165,6 +173,12 @@
         data: voltageData,
       },
     ]);
+    voltageChart.updateOptions({
+      xaxis: {
+        min: new Date().getTime() - 24 * 60 * 60 * 1000,
+        max: new Date().getTime(),
+      },
+    });
 
     // Current
     currentData.push({
@@ -176,6 +190,12 @@
         data: currentData,
       },
     ]);
+    currentChart.updateOptions({
+      xaxis: {
+        min: new Date().getTime() - 24 * 60 * 60 * 1000,
+        max: new Date().getTime(),
+      },
+    });
   };
 
   sensorSocket.onclose = function (e) {
