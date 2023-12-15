@@ -9,11 +9,11 @@ SECRET_KEY = 'django-insecure-2%ufs!*3q5_ru_d1tzs%7g2t3q$honwq507rientmom!yxxba_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # TCP Server
 TCP_HOST = '0.0.0.0'
-TCP_PORT = 8080
+TCP_PORT = 32887
 
 # Daphne
 ASGI_APPLICATION = "SolarEnergyAnalysis.asgi.application"

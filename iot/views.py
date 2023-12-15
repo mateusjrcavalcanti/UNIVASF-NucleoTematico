@@ -8,7 +8,8 @@ from iot.models import Sensor, SensorData
 
 
 def index(request):
-    return render(request, "sensor/index.html")
+    sensors = Sensor.objects.all()
+    return render(request, "sensor/index.html", {'sensors': sensors})
 
 
 def info(request):
